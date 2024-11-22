@@ -1,0 +1,67 @@
+<!-- app/templates/restaurant/menu.html -->
+{% extends "base.html" %}
+
+{% block title %}{{ restaurant.Name }} - Menu{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="restaurant-menu">
+    <div class="restaurant-header">
+        <h2>{{ restaurant.Name }}</h2>
+        <div class="restaurant-info">
+            <p>{{ restaurant.CuisineType }}</p>
+            <p>Rating: {{ "%.1f"|format(restaurant.Rating) }}/5</p>
+            <p>{{ restaurant.Location }}</p>
+        </div>
+    </div>
+
+    <div class="cart-summary" id="cartSummary" style="display: None;">
+        <h3>Cart</h3>
+        <div id="cartItems"></div>
+        <div class="cart-total">
+            Total: <span id="cartTotal">0.00</span>
+        </div>
+        <button onclick="placeOrder()" class="btn-primary">Place Order</button>
+        <button onclick="clearCart()" class="btn-secondary">Remove All</button>
+    </div>
+
+    <div class="menu-categories">
+        {% for category, items in categories.items() %}
+        <section class="menu-section">
+            <br>
+            <h3>{{ category }}</h3>
+            <div class="menu-items">
+                {% for item in items %}
+                <div class="menu-item" data-id="{{ item.MenuItemID }}">
+                    <div class="item-details">
+                        <h4>{{ item.MenuItemName }}</h4>
+                        <p class="description">{{ item.Description }}</p>
+                        <p class="price">Rs. {{ "%.2f"|format(item.Price) }}</p>
+                    </div>
+                    <div class="item-actions">
+                        <!--<button onclick='addToCart({{ item|tojson }})' class="btn-add"> -->
+                        <button onclick="addToCart({
+                                        'MenuItemID': {{ item.MenuItemID }},
+                                        'Name': '{{ item.MenuItemName }}',
+                                        'Price': '{{ item.Price }}',
+                                        'RestaurantID': {{ item.RestaurantID }},
+                                        'RestaurantName': '{{ item.RestaurantName }}'
+                                        })" class ="btn-add">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+{% endblock %}

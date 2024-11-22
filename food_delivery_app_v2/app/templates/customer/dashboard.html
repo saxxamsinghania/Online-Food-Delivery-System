@@ -1,0 +1,55 @@
+<!-- app/templates/customer/dashboard.html -->
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h2>Welcome, {{ current_user.Name }}</h2>
+    
+    <section class="restaurants">
+        <h3>Available Restaurants</h3>
+        <div class="restaurant-grid">
+            {% for restaurant in restaurants %}
+            <div class="restaurant-card">
+                <h4>{{ restaurant.Name }}</h4>
+                <p style="font-weight:15;font-size:16px;">{{ restaurant.CuisineType }}</p>
+                <p>
+                    Rating:
+                    <span class="stars">
+                        {% for _ in range(restaurant.Rating|int) %}
+                        <i class="fa fa-star" style="color: gold;"></i>
+                        {% endfor %}
+                        {% if restaurant.Rating|round - restaurant.Rating|int > 0 %}
+                        <i class="fa fa-star-half-alt" style="color: gold;"></i>
+                        {% endif %}
+                    </span>
+                    {{ restaurant.Rating }}
+                </p>
+                <br>
+                <a href="{{ url_for('restaurant.menu', restaurant_id=restaurant.RestaurantID) }}" 
+                   class="btn">View Menu</a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    
+    <section class="orders">
+        <br>
+        <h3>Your Orders</h3>
+        <div class="order-list">
+            {% for order in orders %}
+            <div class="order-card">
+                <div class="order-header">
+                    <h4>Order #{{ order.id }}</h4>
+                    <span class="status {{ order.status.lower() }}">{{ order.status }}</span>
+                </div>
+                <p>Restaurant: {{ order.restaurant_name }}</p>
+                <p>Total: ${{ order.total_amount }}</p>
+                <p>Date: {{ order.order_date.strftime('%Y-%m-%d %H:%M') }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
