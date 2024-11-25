@@ -11,8 +11,6 @@ window.onload = function() {
 };
 
 function addToCart(item) {
-    console.log("\nitem\n");
-    console.log(item);
     const existingItem = cart.find(i => i.id === item.MenuItemID);
 
     if (existingItem) {
@@ -56,7 +54,7 @@ function updateCartDisplay() {
     `).join('');
     
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    cartTotal.textContent = 'Rs. '+total.toFixed(2);
+    cartTotal.textContent = 'Rs. ' + total.toLocaleString('en-IN', { minimumFractionDigits: 2 });
 }
 
 function removeFromCart(itemId) {
@@ -100,16 +98,31 @@ async function placeOrder() {
             })
         });
         
-        const data = await response.json();
-
-        
+        const data = await response.json();        
         
         if (data.success) {
-            window.location.href = `/order/${data.order_id}`;
+            const orderId = data.order_id;
+            window.location.href = `/order/${data.order_id}`; 
+
         } else {
             showAlert(data.error);
         }
     } catch (error) {
+        console.log(error);
         showAlert('Failed to place order. Please try again.');
     }
+}
+
+async function process_the_Payment(orderId, grand_total) {
+    const response = await fetch('/order/generate-qr', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            total_amount: grand_total
+            
+        })
+    })
+    window.location.href = `/order/process-payment/${orderId}`;
 }

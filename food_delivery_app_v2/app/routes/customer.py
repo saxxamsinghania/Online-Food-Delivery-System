@@ -29,45 +29,10 @@ def dashboard():
                          restaurants=restaurants, 
                          orders=orders)
 
-# @bp.route('/place-order', methods=['POST'])
-# @login_required
-# def place_order():
-#     data = request.get_json()
-#     print(f"\ndata\n{data}\n")
-#     restaurant_id = data['RestaurantID']
-#     items = data['items']
-#     total_amount = sum(item['price'] * item['quantity'] for item in items)
-    
-#     cur = mysql.connection.cursor()
-#     try:
-#         # Create order
-#         cur.execute('''
-#             INSERT INTO `Order` (CustomerID, RestaurantID, TotalAmount, Status)
-#             VALUES (%s, %s, %s, 'Pending')
-#         ''', (current_user.get_id, restaurant_id, total_amount))
-        
-#         order_id = cur.lastrowid
-        
-#         # Create order items
-#         for item in items:
-#             cur.execute('''
-#                 INSERT INTO OrderItem (OrderID, MenuItemID, Quantity, Price)
-#                 VALUES (%s, %s, %s, %s)
-#             ''', (order_id, item['id'], item['quantity'], item['price']))
-        
-#         mysql.connection.commit()
-#         return {'success': True, 'order_id': order_id}
-#     except Exception as e:
-#         mysql.connection.rollback()
-#         return {'success': False, 'error': str(e)}, 500
-#     finally:
-#         cur.close()
-
 @bp.route('/place-order', methods=['POST'])
 @login_required
 def place_order():
     data = request.get_json()
-    print(f"\ndata\n{data}\n")
     
     # Extract restaurant_id from the first item in the items list
     restaurant_id = data['items'][0]['RestaurantID']

@@ -18,16 +18,6 @@ def menu(restaurant_id):
     if not restaurant:
         return jsonify({'error': 'Restaurant not found'}), 404
 
-    
-    # Get menu items grouped by category
-    # cur.execute('''
-    #     SELECT * FROM MenuItem 
-    #     WHERE RestaurantID = %s 
-    #     ORDER BY Category, Name
-    # ''', (restaurant_id,))
-    # menu_items = cur.fetchall()
-    # cur.close()
-    
     # Get menu items with RestaurantName included
     cur.execute('''
         SELECT mi.MenuItemID, mi.Name AS MenuItemName, mi.Price, mi.Description, mi.Category, 

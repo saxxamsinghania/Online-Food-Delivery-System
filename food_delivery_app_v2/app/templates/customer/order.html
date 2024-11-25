@@ -4,7 +4,8 @@
 {% block title %}Order #{{ order.OrderID }}{% endblock %}
 
 {% block content %}
-<div class="order-details">
+
+<div class="order-details" data-OrderID="{{ order.OrderID }}">
     <div class="order-header">
         <h2>Order #{{ order.OrderID }}</h2>
         <div class="order-meta">
@@ -24,9 +25,20 @@
                     <p>{{ item.Description }}</p>
                 </div>
                 <div class="item-meta">
-                    <p>Quantity: {{ item.Quantity }}</p>
-                    <p>Price: ${{ "%.2f"|format(item.Price) }}</p>
-                    <p>Subtotal: ${{ "%.2f"|format(item.Price * item.Quantity) }}</p>
+                    <div class="item-meta-row">
+                        <span class="label">Quantity:</span> 
+                        <span class="value">{{ item.Quantity }}</span>
+                    </div>
+                    <br>
+                    <div class="item-meta-row">
+                        <span class="label">Price:</span> 
+                        <span class="value">Rs. {{ "{:,.2f}".format(item.Price) }}</span>
+                    </div>
+                    <br>
+                    <div class="item-meta-row">
+                        <span class="label">Subtotal:</span> 
+                        <span class="value">Rs. {{ "{:,.2f}".format(item.Price * item.Quantity) }}</span>
+                    </div>
                 </div>
             </div>
             {% endfor %}
@@ -35,13 +47,37 @@
 
     <div class="order-summary">
         <h3>Order Summary</h3>
-        <p>Subtotal: ${{ "%.2f"|format(order.TotalAmount) }}</p>
-        <p>Delivery Fee: $5.00</p>
-        <p class="total">Total: ${{ "%.2f"|format(order.TotalAmount + 5) }}</p>
-    </div>
+        <div class="summary-row">
+            <span class="label">Subtotal:</span>
+            <span class="value">Rs. {{ "{:,.2f}".format(order.TotalAmount) }}</span>
+        </div>
+        <div class="summary-row">
+            <span class="label">GST (5%):</span>
+            <span class="value">Rs. {{ "{:,.2f}".format(gst) }}</span>
+        </div>
+        <div class="summary-row">
+            <span class="label">Delivery Fee:</span>
+            <span class="value">Rs. 60.00</span>
+        </div>
+        <div class="summary-row">
+            <span class="label">Restaurant Packaging Charges:</span>
+            <span class="value">Rs. 50.00</span>
+        </div>
+        <div class="summary-row">
+            <span class="label">Platform Fee:</span>
+            <span class="value">Rs. 10.00</span>
+        </div>
+        <div class="summary-row total">
+            <span class="label">Grand Total:</span>
+            <span class="value">Rs. {{ "{:,.2f}".format(grand_total) }}</span>
+        </div>
+    </div>    
 
-    {% if not order.Rating %}
-    <div class="order-rating">
+    <div class="payment-actions">
+        <button onclick="process_the_Payment('{{ orderId }}', {{ grand_total }})" class="btn-primary">Proceed to Payment</button>
+    </div>
+    <!-- {% if not order.Rating %} -->
+    <div class="order-rating" >
         <h3>Rate Your Order</h3>
         <div class="rating-stars">
             {% for i in range(1, 6) %}
@@ -49,6 +85,6 @@
             {% endfor %}
         </div>
     </div>
-    {% endif %}
+    <!-- {% endif %} -->
 </div>
 {% endblock %}

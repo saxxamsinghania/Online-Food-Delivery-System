@@ -17,16 +17,12 @@ def register():
         address = request.form['address']
         
         cur = mysql.connection.cursor()
-        # conn = mysql.get_db()  # Get the database connection
-        # cur = conn.cursor()
         
-        # Check if email already exists
         cur.execute('SELECT * FROM Customer WHERE Email = %s', (email,))
         if cur.fetchone():
             flash('Email already registered')
             return redirect(url_for('auth.register'))
         
-        # Insert new customer
         cur.execute(
             'INSERT INTO Customer (Name, Email, Password, PhoneNumber, Address) VALUES (%s, %s, %s, %s, %s)',
             (name, email, generate_password_hash(password), phone_number, address)
@@ -46,8 +42,6 @@ def login():
         password = request.form['password']
         
         user = Customer.get_by_email(email)
-        # print(f"\nuser\n{user}\n")
-        # print(f"\nuser\n{user.Password}\n")
         if user and check_password_hash(user.Password, password):
             login_user(user)
             return redirect(url_for('customer.dashboard'))
@@ -61,7 +55,3 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
-
-# @bp.route('/')
-# def home():
-#     return render_template('base.html')

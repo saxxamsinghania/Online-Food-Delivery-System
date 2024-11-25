@@ -1,8 +1,10 @@
 # app/routes/order.py
-from flask import Blueprint, render_template, request, jsonify
+import qrcode
+from flask import Blueprint, render_template, request, jsonify, send_file
 from flask_login import login_required, current_user
 from app import mysql
 from datetime import datetime
+from decimal import Decimal
 
 bp = Blueprint('order', __name__, url_prefix='/order')
 
@@ -31,25 +33,36 @@ def order_details(order_id):
         WHERE oi.OrderID = %s
     ''', (order_id,))
     items = cur.fetchall()
+    
+    total_amount = Decimal(str(order['TotalAmount']))
+    print(total_amount)
+    gst = total_amount * Decimal('0.05')
+    delivery_fee = Decimal('60.00')
+    rest_packaging_charges = Decimal('50.00')
+    platform_fee = Decimal('10.00')
+    
+    grand_total= total_amount+gst+rest_packaging_charges+platform_fee+delivery_fee
     cur.close()
     
-    # return render_template('order/details.html', order=order, items=items)
-    return render_template('customer/order.html', order=order, items=items)
+    return render_template('customer/order.html', order=order, items=items, gst=gst, grand_total=grand_total, orderId = order_id)
+
 
 @bp.route('/<int:order_id>/rate', methods=['POST'])
 @login_required
 def rate_order(order_id):
     rating = request.json.get('rating')
+    
     if not 1 <= rating <= 5:
         return jsonify({'error': 'Invalid rating'}), 400
     
     cur = mysql.connection.cursor()
+    
     try:
         cur.execute('''
             UPDATE `Order` 
             SET Rating = %s 
             WHERE OrderID = %s AND CustomerID = %s
-        ''', (rating, order_id, current_user.id))
+        ''', (rating, order_id, current_user.CustomerID))
         mysql.connection.commit()
         return jsonify({'success': True})
     except Exception as e:
@@ -59,26 +72,37 @@ def rate_order(order_id):
         cur.close()
 
 
-@bp.route('/process-payment', methods=['POST'])
+@bp.route('/generate-qr', methods=['POST'])
+def generate_qr():
+    try:
+        upi_id = 'saksham1225@oksbi'
+        payee_name = 'Saksham Singhania' 
+        amount = request.get_json()['total_amount']  #yaha
+        print("\namount:{amount}\n")
+        transaction_note = "Order Payment"
+        
+        upi_uri = f"upi://pay?pa={upi_id}&pn={payee_name}&am={amount}&cu=INR&tn={transaction_note}"
+        qr = qrcode.make(upi_uri)
+        qr.save("app/static/img/qr-code.png")  # Save in static folder
+
+        return {'success': True}, 200
+    except Exception as e:
+        return {'success': False, 'error': str(e)}, 500
+
+@bp.route('/process-payment/<int:order_id>')
 @login_required
-def process_payment():
-    data = request.json
-    order_id = data['order_id']
-    payment_method = data['payment_method']
+def process_payment(order_id):
     
-    if order_id in orders:
-        # Simulate payment processing
-        orders[order_id]['status'] = 'paid'
-        orders[order_id]['payment_date'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
-        return jsonify({
-            'success': True,
-            'order_id': order_id,
-            'message': 'Payment successful'
-        })
+    cur = mysql.connection.cursor()
+
+    cur.execute(''' SELECT o.* 
+                FROM `Order` o 
+                WHERE o.OrderID = %s AND o.CustomerID = %s
+    ''', (order_id, current_user.get_id()))
+    order = cur.fetchone()
     
-    return jsonify({
-        'success': False,
-        'message': 'Order not found'
-    })
-        
+    if not order:
+        return 'Order not found', 404
+    
+    return render_template('customer/payment.html', order=order)
+    
