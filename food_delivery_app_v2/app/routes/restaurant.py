@@ -11,14 +11,12 @@ bp = Blueprint('restaurant', __name__, url_prefix='/restaurant')
 def menu(restaurant_id):
     cur = mysql.connection.cursor()
     
-    # Get restaurant details
     cur.execute('SELECT * FROM Restaurant WHERE RestaurantID = %s', (restaurant_id,))
     restaurant = cur.fetchone()
     
     if not restaurant:
         return jsonify({'error': 'Restaurant not found'}), 404
 
-    # Get menu items with RestaurantName included
     cur.execute('''
         SELECT mi.MenuItemID, mi.Name AS MenuItemName, mi.Price, mi.Description, mi.Category, 
                mi.Rating, mi.RestaurantID, r.Name AS RestaurantName

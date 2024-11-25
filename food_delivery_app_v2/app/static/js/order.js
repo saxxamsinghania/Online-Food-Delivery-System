@@ -1,4 +1,3 @@
-// app/static/js/order.js
 async function rateOrder(rating) {
     const orderId = document.querySelector('.order-details').dataset.orderid;
     console.log("ORDER ID: ");

@@ -77,13 +77,13 @@ def generate_qr():
     try:
         upi_id = 'saksham1225@oksbi'
         payee_name = 'Saksham Singhania' 
-        amount = request.get_json()['total_amount']  #yaha
-        print("\namount:{amount}\n")
+        amount = request.get_json()['total_amount']  
+        
         transaction_note = "Order Payment"
         
         upi_uri = f"upi://pay?pa={upi_id}&pn={payee_name}&am={amount}&cu=INR&tn={transaction_note}"
         qr = qrcode.make(upi_uri)
-        qr.save("app/static/img/qr-code.png")  # Save in static folder
+        qr.save("app/static/img/qr-code.png")  
 
         return {'success': True}, 200
     except Exception as e:

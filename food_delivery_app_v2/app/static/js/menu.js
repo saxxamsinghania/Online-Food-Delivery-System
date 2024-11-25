@@ -1,7 +1,5 @@
-// app/static/js/menu.js
 let cart = [];
 
-// Load cart from localStorage when the page loads
 window.onload = function() {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
@@ -61,7 +59,7 @@ function removeFromCart(itemId) {
 
     const item = cart.find(item => item.id === itemId);
     if (item) {
-        item.quantity -= 1; // Decrease the quantity by 1
+        item.quantity -= 1; 
         if (item.quantity === 0) {
             cart = cart.filter(item => item.id !== itemId); // Remove item if quantity is 0
         }

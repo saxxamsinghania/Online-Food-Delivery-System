@@ -1,4 +1,3 @@
-// app/static/js/main.js
 function showAlert(message, type = 'error') {
     const alert = document.createElement('div');
     alert.className = `alert ${type}`;

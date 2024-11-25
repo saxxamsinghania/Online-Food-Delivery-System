@@ -42,7 +42,6 @@
                         <p class="price">Rs. {{ "%.2f"|format(item.Price) }}</p>
                     </div>
                     <div class="item-actions">
-                        <!--<button onclick='addToCart({{ item|tojson }})' class="btn-add"> -->
                         <button onclick="addToCart({
                                         'MenuItemID': {{ item.MenuItemID }},
                                         'Name': '{{ item.MenuItemName }}',

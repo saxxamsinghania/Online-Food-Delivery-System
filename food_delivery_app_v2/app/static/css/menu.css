@@ -1,4 +1,3 @@
-/* app/static/css/menu.css */
 .restaurant-menu {
     max-width: 1200px;
     margin: 0 auto;
@@ -70,8 +69,8 @@
 
 .cart-item-amount {
     display: flex;
-    min-width: 15rem; /* Adjust this width based on your expected amounts */
-    text-align: right; /* Align the amounts to the right */
+    min-width: 15rem;
+    text-align: right; 
 }
 
 .cart-total span {
