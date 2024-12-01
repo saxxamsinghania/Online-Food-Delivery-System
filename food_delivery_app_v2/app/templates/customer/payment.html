@@ -31,7 +31,10 @@
         </div>
     </div>
     <div class="payment-actions">
-        <button onclick="processPayment()" class="btn-primary">Proceed to Payment</button>
+        <button onclick="processPayment({
+                        'OrderID': {{order.OrderID}},
+                        'Amount': {{order.TotalAmount}}
+                        })" class="btn-primary">Complete Order</button>
     </div>
 </div>
 {% endblock %}
@@ -43,20 +46,35 @@
         upiForm.style.display = show ? 'block' : 'none';
     }
 
-    function processPayment() {
+    async function processPayment(item) {
         const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
         if (selectedPaymentMethod === 'UPI') {
             const upiId = document.getElementById('upiId').value;
+            //console.log(item.OrderID);
             //if (!upiId) {
             //    alert('Please enter a valid UPI ID.');
             //    return;
             //}
             alert(`Payment initiated via UPI`);
+
+            
         } else {
             alert('Payment will be made via Cash on Delivery.');
         }
+        console.log("hereeeee hu ji")
+        const response = await fetch(`/order/complete-order/${item.OrderID}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                amount: item.Amount,
+                paymentMethod: selectedPaymentMethod
+                
+            })
+        })
         // Redirect to order confirmation page or handle payment backend logic here
-        window.location.href = `/`; 
+        window.location.href = `/order/order-confirmed/${item.OrderID}`; 
     }
 </script>
 {% endblock %}

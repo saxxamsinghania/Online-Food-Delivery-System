@@ -377,6 +377,100 @@ h6 { font-size: 1rem; }
 .status.delivered { background-color: var(--success-color); color: white; }
 .status.cancelled { background-color: var(--error-color); color: white; }
 
+/* Order Confirmation Styles */
+.payment-confirmation {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+}
+
+.confirmation-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.confirmation-header h1 {
+    color: var(--success-color);
+}
+
+.confirmation-icon {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.confirmation-icon svg {
+    width: 100px;
+    height: 100px;
+    color: var(--success-color);
+    stroke-width: 2px;
+}
+
+.confirmation-icon svg.animate {
+    animation: bounce 0.5s ease-in-out;
+}
+
+.payment-details {
+    margin-bottom: 1.5rem;
+    background-color: var(--gray-light);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.confirmation-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.confirmation-actions .btn {
+    flex: 1;
+    margin: 0 0.5rem;
+}
+
+@media print {
+    .confirmation-actions {
+        display: none;
+    }
+}
+
+/* Additional styles for order confirmation */
+.payment-details .detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--gray-medium);
+}
+
+.detail-row .label {
+    font-weight: 500;
+    color: var(--secondary-color);
+}
+
+.detail-row .value {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.status-success {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+.status-pending {
+    color: var(--warning-color);
+    font-weight: 600;
+}
+
+.status-failed {
+    color: var(--error-color);
+    font-weight: 600;
+}
+
 /* Rating Stars */
 .rating-stars {
     display: flex;
@@ -540,3 +634,26 @@ h6 { font-size: 1rem; }
 .gap-2 { gap: 1rem; }
 .gap-3 { gap: 1.5rem; }
 .gap-4 { gap: 2rem; }
+
+/* Hide everything except the payment confirmation content when printing */
+@media print {
+    body * {
+        visibility: hidden; /* Hide all content */
+    }
+
+    .payment-confirmation, .payment-confirmation * {
+        visibility: visible; /* Show only the payment confirmation content */
+        position: static; /* Reset position */
+        overflow: visible; /* Allow overflow */
+        width: 100%; /* Ensure it takes up the full page */
+    }
+
+    .payment-confirmation .confirmation-actions, 
+    .payment-confirmation button {
+        display: none; /* Optionally hide the buttons or actions during printing */
+    }
+
+    .payment-confirmation .confirmation-header {
+        page-break-before: always; /* Ensure the header starts on a new page */
+    }
+}

@@ -20,7 +20,7 @@ def menu(restaurant_id):
     cur.execute('''
         SELECT mi.MenuItemID, mi.Name AS MenuItemName, mi.Price, mi.Description, mi.Category, 
                mi.Rating, mi.RestaurantID, r.Name AS RestaurantName
-        FROM MenuItem mi
+        FROM menu_item mi
         JOIN Restaurant r ON mi.RestaurantID = r.RestaurantID
         WHERE mi.RestaurantID = %s
         ORDER BY mi.Category, mi.Name

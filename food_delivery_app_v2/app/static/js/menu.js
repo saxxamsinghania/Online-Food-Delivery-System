@@ -1,90 +1,143 @@
-let cart = [];
+// let cart = [];
 
+// window.onload = function() {
+//     const storedCart = localStorage.getItem('cart');
+//     if (storedCart) {
+//         cart = JSON.parse(storedCart);
+//         updateCartDisplay();
+//     }
+// };
 window.onload = function() {
-    const storedCart = localStorage.getItem('cart');
-    if (storedCart) {
-        cart = JSON.parse(storedCart);
-        updateCartDisplay();
-    }
+    updateCartDisplay();
 };
 
-function addToCart(item) {
-    const existingItem = cart.find(i => i.id === item.MenuItemID);
-
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.push({
-            id: item.MenuItemID,
-            name: item.Name,
-            price: item.Price,
-            restaurant: item.RestaurantName,
-            RestaurantID: item.RestaurantID,
-            quantity: 1
-        });
+async function fetchCart() {
+    try {
+        const response = await fetch('/customer/cart');
+        const cart = await response.json();
+        // cart = data.cart;
+        // console.log("Here")
+        // updateCartDisplay();
+        return cart
+    } catch (error) {
+        console.error('Failed to fetch cart:', error);
     }
-
-    saveCartToLocalStorage();
-    updateCartDisplay();
 }
 
-function updateCartDisplay() {
-    const cartSummary = document.getElementById('cartSummary');
-    const cartItems = document.getElementById('cartItems');
-    const cartTotal = document.getElementById('cartTotal');
-    
-    if (cart.length === 0) {
-        cartSummary.style.display = 'none';
-        return;
-    }
-    
-    cartSummary.style.display = 'block';
-    cartItems.innerHTML = cart.map(item => `
-        <div class="cart-item">
-            <div class="cart-item-details">
-            <span>${item.name} x ${item.quantity} - <small style="color:#808080;">${item.restaurant}</small></span>
-            </div>
-            <div class= "cart-item-amount">
-            <span>Rs. ${(item.price * item.quantity).toFixed(2)}</span>
-            </div>
-            <button onclick="removeFromCart(${item.id})" class="btn-remove">Remove</button>
-        </div>
-    `).join('');
-    
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    cartTotal.textContent = 'Rs. ' + total.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+function addToCart(item) {
+    // console.log("Hello world on top");
+    fetch(`/customer/add_to_cart/${item.MenuItemID}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            // 'X-CSRFToken': getCookie('csrf_token')
+        },
+        body: JSON.stringify({
+            RestaurantID: item.RestaurantID
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Reload cart or update UI
+            updateCartDisplay();
+        }
+    });
 }
 
 function removeFromCart(itemId) {
+    fetch(`/customer/remove_from_cart/${itemId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Reload cart or update UI
+            updateCartDisplay();
+        }
+    });
+}
 
-    const item = cart.find(item => item.id === itemId);
-    if (item) {
-        item.quantity -= 1; 
-        if (item.quantity === 0) {
-            cart = cart.filter(item => item.id !== itemId); // Remove item if quantity is 0
+function clearCart() {
+    fetch('/customer/clear_cart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            updateCartDisplay();
+        }
+    });
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
         }
     }
-
-    saveCartToLocalStorage();
-    updateCartDisplay();
+    return cookieValue;
 }
 
-function saveCartToLocalStorage() {
-    localStorage.setItem('cart', JSON.stringify(cart));
+
+async function updateCartDisplay() {
+    // Fetch cart items from server
+    try {
+        const response = await fetch('/customer/cart');
+        const cartItems = await response.json();
+
+        // console.log(cartItems);
+
+        const cartSummary = document.getElementById('cartSummary');
+        const cartItemsContainer = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        // console.log(cartItems.length);
+
+        if (cartItems.length === 0) {
+            cartSummary.style.display = 'none';
+            return;
+        }
+
+        cartSummary.style.display = 'block';
+        cartItemsContainer.innerHTML = cartItems.map(item => `
+            <div class="cart-item">
+                <div class="cart-item-details">
+                    <span>${item.Name} x ${item.Quantity} - <small style="color:#808080;">${item.restaurant}</small></span>
+                </div>
+                <div class="cart-item-amount">
+                    <span>Rs. ${(item.Price * item.Quantity).toFixed(2)}</span>
+                </div>
+                <button onclick="removeFromCart(${item.MenuItemID})" class="btn-remove">Remove</button>
+            </div>
+        `).join('');
+
+        const total = cartItems.reduce((sum, item) => sum + (item.Price * item.Quantity), 0);
+        cartTotal.textContent = 'Rs. ' + total.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    } catch (error) {
+        console.error('Failed to update cart:', error);
+    }
 }
-function clearCart() {
-    cart = [];
-
-    saveCartToLocalStorage();
-
-    updateCartDisplay();
-}
-
 
 async function placeOrder() {
     const restaurantId = document.querySelector('.restaurant-menu').dataset.restaurantId;
     
     try {
+        // console.log(fetchCart());
+        const cart = await fetchCart();
+        console.log(cart);
         const response = await fetch('/customer/place-order', {
             method: 'POST',
             headers: {
@@ -124,3 +177,25 @@ async function process_the_Payment(orderId, grand_total) {
     })
     window.location.href = `/order/process-payment/${orderId}`;
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Optional: Add some animations or interactions
+    const confirmationIcon = document.querySelector('.confirmation-icon svg');
+    
+    if (confirmationIcon) {
+        confirmationIcon.classList.add('animate');
+    }
+    
+    // Optional: Print order functionality
+    const printButton = document.createElement('button');
+    printButton.textContent = 'Print Receipt';
+    printButton.classList.add('btn', 'btn-secondary');
+    printButton.addEventListener('click', function() {
+        window.print();
+    });
+    
+    const actionsContainer = document.querySelector('.confirmation-actions');
+    if (actionsContainer) {
+        actionsContainer.appendChild(printButton);
+    }
+});
