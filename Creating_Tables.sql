@@ -1,69 +1,80 @@
 CREATE TABLE Customer (
-    CustomerID INT PRIMARY KEY AUTO_INCREMENT,
-    Name VARCHAR(100),
-    Email VARCHAR(100) UNIQUE,
+    CustomerID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) UNIQUE NOT NULL,
     PhoneNumber VARCHAR(15),
     Address VARCHAR(255),
-    Password VARCHAR(100)
+    Password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE Restaurant (
-    RestaurantID INT PRIMARY KEY AUTO_INCREMENT,
-    Name VARCHAR(100),
+    RestaurantID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
     Location VARCHAR(255),
     ContactNumber VARCHAR(15),
     CuisineType VARCHAR(100),
-    Rating DECIMAL(3, 2) DEFAULT 0.00
+    Rating FLOAT DEFAULT 0.0
 );
 
 CREATE TABLE MenuItem (
-    MenuItemID INT PRIMARY KEY AUTO_INCREMENT,
-    Name VARCHAR(100),
-    Price DECIMAL(10, 2),
+    MenuItemID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Price FLOAT NOT NULL,
     Description TEXT,
     Category VARCHAR(100),
-    Rating DECIMAL(3, 2) DEFAULT 0.00,
-    RestaurantID INT,
+    Rating FLOAT DEFAULT 0.0,
+    RestaurantID INT NOT NULL,
     FOREIGN KEY (RestaurantID) REFERENCES Restaurant(RestaurantID) ON DELETE CASCADE
 );
 
-CREATE TABLE `Order` (
-    OrderID INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE "Order" (
+    OrderID INT AUTO_INCREMENT PRIMARY KEY,
     OrderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-    TotalAmount DECIMAL(10, 2),
+    TotalAmount FLOAT,
     Status VARCHAR(50),
     TimeToReach TIME,
-    Rating DECIMAL(3, 2) DEFAULT 0.00,
-    CustomerID INT,
-    RestaurantID INT,
+    Rating FLOAT DEFAULT 0.0,
+    CustomerID INT NOT NULL,
+    RestaurantID INT NOT NULL,
     FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID) ON DELETE CASCADE,
     FOREIGN KEY (RestaurantID) REFERENCES Restaurant(RestaurantID) ON DELETE CASCADE
 );
 
 CREATE TABLE OrderItem (
-    OrderItemID INT PRIMARY KEY AUTO_INCREMENT,
-    Quantity INT,
-    Price DECIMAL(10, 2),
-    MenuItemID INT,
-    OrderID INT,
+    OrderItemID INT AUTO_INCREMENT PRIMARY KEY,
+    Quantity INT NOT NULL,
+    Price FLOAT NOT NULL,
+    MenuItemID INT NOT NULL,
+    OrderID INT NOT NULL,
     FOREIGN KEY (MenuItemID) REFERENCES MenuItem(MenuItemID) ON DELETE CASCADE,
-    FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID) ON DELETE CASCADE
+    FOREIGN KEY (OrderID) REFERENCES "Order"(OrderID) ON DELETE CASCADE
 );
 
 CREATE TABLE DeliveryPerson (
-    DeliveryPersonID INT PRIMARY KEY AUTO_INCREMENT,
-    Name VARCHAR(100),
+    DeliveryPersonID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
     PhoneNumber VARCHAR(15),
     VehicleDetails VARCHAR(100),
-    Rating DECIMAL(3, 2) DEFAULT 0.00
+    Rating FLOAT DEFAULT 0.0
 );
 
 CREATE TABLE Payment (
-    PaymentID INT PRIMARY KEY AUTO_INCREMENT,
+    PaymentID INT AUTO_INCREMENT PRIMARY KEY,
     PaymentDate DATETIME DEFAULT CURRENT_TIMESTAMP,
     PaymentMethod VARCHAR(50),
     PaymentStatus VARCHAR(50),
-    Amount DECIMAL(10, 2),
-    OrderID INT,
-    FOREIGN KEY (OrderID) REFERENCES `Order`(OrderID) ON DELETE CASCADE
+    Amount FLOAT,
+    OrderID INT NOT NULL,
+    FOREIGN KEY (OrderID) REFERENCES "Order"(OrderID) ON DELETE CASCADE
+);
+
+CREATE TABLE CartItem (
+    CartItemID INT AUTO_INCREMENT PRIMARY KEY,
+    CustomerID INT NOT NULL,
+    MenuItemID INT NOT NULL,
+    RestaurantID INT NOT NULL,
+    Quantity INT NOT NULL DEFAULT 1,
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID) ON DELETE CASCADE,
+    FOREIGN KEY (MenuItemID) REFERENCES MenuItem(MenuItemID) ON DELETE CASCADE,
+    FOREIGN KEY (RestaurantID) REFERENCES Restaurant(RestaurantID) ON DELETE CASCADE
 );
