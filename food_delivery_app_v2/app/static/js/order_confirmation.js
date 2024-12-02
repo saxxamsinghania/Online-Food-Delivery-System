@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (confirmationIcon) {
         confirmationIcon.classList.add('animate');
         confirmationIcon.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
-        confirmationIcon.style.transform = 'scale(1.2)';
+        confirmationIcon.style.transform = 'scale(1.5)';
         confirmationIcon.style.opacity = '1';
 
         setTimeout(() => {

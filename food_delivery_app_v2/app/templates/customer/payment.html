@@ -48,20 +48,7 @@
 
     async function processPayment(item) {
         const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-        if (selectedPaymentMethod === 'UPI') {
-            const upiId = document.getElementById('upiId').value;
-            //console.log(item.OrderID);
-            //if (!upiId) {
-            //    alert('Please enter a valid UPI ID.');
-            //    return;
-            //}
-            alert(`Payment initiated via UPI`);
-
-            
-        } else {
-            alert('Payment will be made via Cash on Delivery.');
-        }
-        console.log("hereeeee hu ji")
+        
         const response = await fetch(`/order/complete-order/${item.OrderID}`, {
             method: 'POST',
             headers: {

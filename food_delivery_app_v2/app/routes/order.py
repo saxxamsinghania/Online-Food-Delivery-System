@@ -86,7 +86,7 @@ def generate_qr():
         payee_name = 'Saksham Singhania' 
         amount = request.get_json()['total_amount']  
         
-        transaction_note = "Order Payment"
+        transaction_note = "Online Food Delivery"
         
         upi_uri = f"upi://pay?pa={upi_id}&pn={payee_name}&am={amount}&cu=INR&tn={transaction_note}"
         qr = qrcode.make(upi_uri)
@@ -95,6 +95,8 @@ def generate_qr():
         return {'success': True}, 200
     except Exception as e:
         return {'success': False, 'error': str(e)}, 500
+
+
 
 @bp.route('/process-payment/<int:order_id>')
 @login_required
@@ -141,7 +143,8 @@ def order_confirmation(order_id):
     try:
         # Fetch the order details
         order = Order.query.get_or_404(order_id)
-        
+        cur = mysql.connection.cursor()
+
         # Fetch the corresponding payment
         payment = Payment.query.filter_by(OrderID=order_id).first()
         
@@ -151,8 +154,18 @@ def order_confirmation(order_id):
         if not payment:
             return render_template('customer/payment.html', order=order), 404
         # Fetch order items
-        items = OrderItem.query.filter_by(OrderID=order_id).all()
-        
+        # Get order items
+        cur.execute('''
+            SELECT oi.*, mi.Name, mi.Description 
+            FROM order_item oi 
+            JOIN menu_item mi ON oi.MenuItemID = mi.MenuItemID 
+            WHERE oi.OrderID = %s
+        ''', (order_id,))
+        items = cur.fetchall()
+        # items = OrderItem.query.filter_by(OrderID=order_id).all()
+        print("Youhuuu")
+        for item in items:
+            print(item)
         # Render the confirmation template
         return render_template(
             'customer/order_confirmation.html', 

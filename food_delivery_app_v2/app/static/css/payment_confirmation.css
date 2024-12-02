@@ -1,0 +1,213 @@
+/* Order Confirmation Specific Styles */
+.payment-confirmation {
+    max-width: 800px; /* Increased width from 600px to 800px */
+    margin: 2rem auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    padding: 2rem;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.confirmation-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--gray-light);
+    padding-bottom: 1rem;
+}
+
+.confirmation-icon {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.confirmation-icon svg {
+    width: 4rem;
+    height: 4rem;
+    color: var(--success-color);
+    stroke-width: 2;
+}
+
+.order-summary {
+    background-color: var(--gray-light);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    max-width: 750px; /* Adjusted width to match the confirmation box */
+    margin: 0 auto; /* Center the summary */
+}
+
+.payment-details {
+    margin-bottom: 1.5rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--gray-medium);
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-row .label {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.detail-row .value {
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.status-success {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+.status-pending {
+    color: var(--warning-color);
+    font-weight: 600;
+}
+
+.order-items {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column; /* Ensure items stack vertically */
+    gap: 1rem; /* Add space between order items */
+}
+.order-item {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 0 auto; /* Center the items */
+    max-width: 2000px; /* Set a wider maximum width */
+    min-width: 700px; /* Ensure a consistent minimum width */
+    height: auto; /* Adjust height to accommodate content */
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Align items at the top */
+    gap: 1rem; /* Add spacing between flex items */
+    flex-wrap: wrap; /* Allow content to wrap if necessary */
+}
+
+.item-info {
+    flex: 1;
+    word-wrap: break-word; /* Ensure long words break to prevent overflow */
+    overflow: hidden; /* Prevent content spilling out */
+}
+
+.item-meta {
+    flex: 0 0 250px; /* Fixed size for the meta section */
+    text-align: right;
+    word-wrap: break-word;
+}
+
+.item-meta-row {
+    display: flex;
+    /* justify-content: space-between; */
+    /* gap: 0; */
+    min-width: 100px;
+}
+
+.item-meta-row .label {
+    flex: 1;
+    text-align: left;
+    font-weight: normal;
+    min-width: 50px;
+    color: #333;
+}
+
+.item-meta-row .value {
+    flex: 0;
+    text-align: right;
+    min-width: 150px;
+    color: #555;
+}
+
+/* 
+.order-item {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 0 auto; 
+    max-width: 750px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} */
+
+/* .order-items {
+    margin-top: 1.5rem;
+}
+
+.order-item {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 750px; 
+    margin: 0 auto; 
+} */
+/* 
+.item-info {
+    flex: 1;
+} */
+
+.item-info h4 {
+    margin-bottom: 0.25rem;
+    color: var(--text-color);
+}
+
+.item-info p {
+    color: var(--gray-dark);
+    font-size: 0.9rem;
+}
+
+/* .item-meta {
+    text-align: right;
+} */
+
+.confirmation-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.confirmation-actions .btn {
+    min-width: 150px;
+}
+
+/* Hide everything except the payment confirmation content when printing */
+@media print {
+    body * {
+        visibility: hidden; /* Hide all content */
+    }
+
+    .payment-confirmation, .payment-confirmation * {
+        visibility: visible; /* Show only the payment confirmation content */
+        position: static; /* Reset position */
+        overflow: visible; /* Allow overflow */
+        width: 100%; /* Ensure it takes up the full page */
+    }
+
+    .payment-confirmation .confirmation-actions, 
+    .payment-confirmation button {
+        display: none; /* Optionally hide the buttons or actions during printing */
+    }
+
+    .payment-confirmation .confirmation-header {
+        page-break-before: always; /* Ensure the header starts on a new page */
+    }
+}
+

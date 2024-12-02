@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Payment Confirmation{% endblock %}
 {% block content %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/payment_confirmation.css') }}">
+{% endblock %}
 <div class="payment-confirmation container">
     <div class="confirmation-header">
         <h1>Payment Successful</h1>
@@ -43,13 +46,20 @@
                     <p>{{ item.Description }}</p>
                 </div>
                 <div class="item-meta">
-                    <div class="item-meta-row">
-                        <span class="label">Quantity:</span>
-                        <span class="value">{{ item.Quantity }}</span>
-                    </div>
+                    
                     <div class="item-meta-row">
                         <span class="label">Price:</span>
                         <span class="value">Rs. {{ "{:,.2f}".format(item.Price) }}</span>
+                    </div>
+
+                    <div class="item-meta-row">
+                        <span class="label">Quantity:</span>
+                        <span class="value">x {{ item.Quantity }}</span>
+                    </div>
+                    
+                    <div class="item-meta-row">
+                        <span class="label">Subtotal:</span> 
+                        <span class="value"><b>Rs. {{ "{:,.2f}".format(item.Price * item.Quantity) }}</b></span>
                     </div>
                 </div>
             </div>
