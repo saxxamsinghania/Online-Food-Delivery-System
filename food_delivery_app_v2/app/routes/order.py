@@ -13,9 +13,11 @@ bp = Blueprint('order', __name__, url_prefix='/order')
 @login_required
 def order_details(order_id):
     cur = mysql.connection.cursor()
-    # if order['OrderDate'] is None:
-    # order['OrderDate'] = datetime.utcnow()  # Or any default date
-
+    
+    customer = Customer.get_by_id(current_user.get_id())
+    if not customer:
+        return 'Customer not found', 404
+    
     # Get order details
     cur.execute('''
         SELECT o.*, r.Name as restaurant_name 
@@ -38,20 +40,15 @@ def order_details(order_id):
     items = cur.fetchall()
     
     total_amount = Decimal(str(order['TotalAmount']))
-    print(total_amount)
-    print("Hai kya")
     gst = total_amount * Decimal('0.05')
     delivery_fee = Decimal('60.00')
     rest_packaging_charges = Decimal('50.00')
     platform_fee = Decimal('10.00')
     
     grand_total= total_amount+gst+rest_packaging_charges+platform_fee+delivery_fee
-    print(order)
-    print("Haina")
-    print(items)
     cur.close()
     
-    return render_template('customer/order.html', order=order, items=items, gst=gst, grand_total=grand_total, orderId = order_id)
+    return render_template('customer/order.html', order=order, items=items, gst=gst, grand_total=grand_total, orderId = order_id, customer_address=customer.Address)
 
 
 @bp.route('/<int:order_id>/rate', methods=['POST'])
@@ -140,20 +137,22 @@ def complete_order(order_id):
 @bp.route('order-confirmed/<int:order_id>', methods=['GET'])
 @login_required
 def order_confirmation(order_id):
+    
     try:
+        customer = Customer.get_by_id(current_user.get_id())
+        print(customer.Address)
+        if not customer:
+            return 'Customer not found', 404
         # Fetch the order details
         order = Order.query.get_or_404(order_id)
         cur = mysql.connection.cursor()
 
         # Fetch the corresponding payment
         payment = Payment.query.filter_by(OrderID=order_id).first()
-        
-        # If no payment found, redirect to orders page
-        # if not payment:
-        #     return redirect(url_for('orders'))
+
         if not payment:
             return render_template('customer/payment.html', order=order), 404
-        # Fetch order items
+        
         # Get order items
         cur.execute('''
             SELECT oi.*, mi.Name, mi.Description 
@@ -162,22 +161,19 @@ def order_confirmation(order_id):
             WHERE oi.OrderID = %s
         ''', (order_id,))
         items = cur.fetchall()
-        # items = OrderItem.query.filter_by(OrderID=order_id).all()
-        print("Youhuuu")
+       
         for item in items:
             print(item)
-        # Render the confirmation template
+
         return render_template(
             'customer/order_confirmation.html', 
             order=order, 
             payment=payment, 
-            items=items
+            items=items,
+            customer_address = customer.Address
         )
     
     except Exception as e:
         # Log the error
         print(f"Error in order confirmation: {e}")
-        
-        # Redirect to orders page with an error
         return render_template('customer/order.html', order=order), 404
-        # return redirect(url_for('orders', error='Payment confirmation failed'))

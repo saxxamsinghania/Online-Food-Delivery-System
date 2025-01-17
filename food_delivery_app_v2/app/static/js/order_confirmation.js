@@ -12,37 +12,35 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 500);
     }
 
-    // Add "Print Receipt" button functionality
-    // const printButton = document.createElement('button');
-
-    // printButton.textContent = 'Print Receipt';
-    // printButton.classList.add('btn', 'btn-secondary');
+    // Print functionality
     const printButton = document.getElementById('printButton');
     if (printButton) {
-        printButton.addEventListener('click', function () {
-            // Save original styles of elements
-            const mainContent = document.querySelector('.payment-confirmation');
-            const otherElements = document.querySelectorAll('body > *:not(.payment-confirmation)');
-            const originalStyles = [];
-
-            otherElements.forEach((el, index) => {
-                originalStyles[index] = el.style.display; // Save current display style
-                el.style.display = 'none'; // Hide all other elements
-            });
-
-            // Trigger print
+        // Ensure we only add one event listener
+        printButton.onclick = function(e) {
+            e.preventDefault();
             window.print();
-
-            // Restore original styles
-            otherElements.forEach((el, index) => {
-                el.style.display = originalStyles[index]; // Restore display style
-            });
-        });
-
-        // Add the button to the confirmation-actions container
-        const actionsContainer = document.querySelector('.confirmation-actions');
-        if (actionsContainer) {
-            actionsContainer.appendChild(printButton);
-        }
+        };
     }
-    });
+    // Print functionality for the existing button
+    // const printButton = document.getElementById('printButton');
+    // if (printButton) {
+    //     printButton.addEventListener('click', function () {
+    //         // Save original styles of elements
+    //         const otherElements = document.querySelectorAll('body > *:not(.payment-confirmation)');
+    //         const originalStyles = [];
+
+    //         otherElements.forEach((el, index) => {
+    //             originalStyles[index] = el.style.display; // Save current display style
+    //             el.style.display = 'none'; // Hide all other elements
+    //         });
+
+    //         // Trigger print
+    //         window.print();
+
+    //         // Restore original styles
+    //         otherElements.forEach((el, index) => {
+    //             el.style.display = originalStyles[index]; // Restore display style
+    //         });
+    //     });
+    // }
+});

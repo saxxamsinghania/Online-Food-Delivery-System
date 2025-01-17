@@ -36,9 +36,7 @@ def place_order():
     
     # Extract restaurant_id from the first item in the items list
     restaurant_id = data['items'][0]['RestaurantID']
-    # print(restaurant_id)
     items = data['items']
-    # print(items)
     
     # Ensure that the restaurant_id is consistent across all items
     for item in items:
@@ -99,9 +97,6 @@ def add_to_cart(menu_item_id):
 def cart():
     cart_items = CartItem.get_cart_items(current_user.CustomerID)
     cart_items_dict = [item.to_dict() for item in cart_items]
-    # print(cart_items_dict)
-    # print(f"\n{jsonify(cart_items)}\n")
-    # return render_template('cart.html', cart_items=cart_items)
     return jsonify(cart_items_dict)
 
 @bp.route('/remove_from_cart/<int:menu_item_id>', methods=['POST'])

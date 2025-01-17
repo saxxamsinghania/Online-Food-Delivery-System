@@ -281,6 +281,35 @@ h6 { font-size: 1rem; }
     margin-bottom: 2rem;
 }
 
+.delivery-details {
+    background-color: white;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+}
+
+.delivery-details h3 {
+    font-size: 1.25rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--gray-medium);
+}
+
+.address-box {
+    background-color: var(--gray-light);
+    padding: 1rem;
+    border-radius: 4px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.address-box p {
+    margin: 0;
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
 .order-items {
     margin-bottom: 2rem;
 }
@@ -443,6 +472,15 @@ h6 { font-size: 1rem; }
     .order-item {
         flex-direction: column;
         gap: 0.5rem;
+    }
+    
+    .delivery-details {
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+    
+    .address-box {
+        padding: 0.75rem;
     }
 }
 

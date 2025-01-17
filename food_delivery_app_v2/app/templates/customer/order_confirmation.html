@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/payment_confirmation.css') }}">
 {% endblock %}
 <div class="payment-confirmation container">
+    
     <div class="confirmation-header">
         <h1>Payment Successful</h1>
         <div class="confirmation-icon">
@@ -14,10 +15,20 @@
             </svg>
         </div>
     </div>
-
     <div class="order-summary">
         <h2>Order #{{ order.OrderID }}</h2>
         
+        <div class="delivery-details">
+            <h3>Delivery Address</h3>
+            <div class="address-box">
+                {% if customer_address %}
+                    <p>{{ customer_address }}</p>
+                {% else %}
+                    <p>No delivery address provided</p>
+                {% endif %}
+            </div>
+        </div>
+
         <div class="payment-details">
             <div class="detail-row">
                 <span class="label">Payment Method:</span>
@@ -36,7 +47,6 @@
                 <span class="value status-{{ payment.PaymentStatus.lower() }}">{{ payment.PaymentStatus }}</span>
             </div>
         </div>
-
         <div class="order-items">
             <h3>Order Items</h3>
             {% for item in items %}
@@ -46,19 +56,16 @@
                     <p>{{ item.Description }}</p>
                 </div>
                 <div class="item-meta">
-                    
                     <div class="item-meta-row">
                         <span class="label">Price:</span>
                         <span class="value">Rs. {{ "{:,.2f}".format(item.Price) }}</span>
                     </div>
-
                     <div class="item-meta-row">
                         <span class="label">Quantity:</span>
                         <span class="value">x {{ item.Quantity }}</span>
                     </div>
-                    
                     <div class="item-meta-row">
-                        <span class="label">Subtotal:</span> 
+                        <span class="label">Subtotal:</span>
                         <span class="value"><b>Rs. {{ "{:,.2f}".format(item.Price * item.Quantity) }}</b></span>
                     </div>
                 </div>
@@ -66,9 +73,8 @@
             {% endfor %}
         </div>
     </div>
-
     <div class="confirmation-actions">
-        <button id="printButton" class="btn btn-secondary">Print Receipt</button>
+        
         <a href="/customer/dashboard" class="btn btn-secondary">Dashboard</a>
         <a href="/" class="btn btn-primary">Return to Home</a>
     </div>

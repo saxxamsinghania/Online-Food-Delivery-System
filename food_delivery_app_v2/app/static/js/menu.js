@@ -135,7 +135,6 @@ async function placeOrder() {
     const restaurantId = document.querySelector('.restaurant-menu').dataset.restaurantId;
     
     try {
-        // console.log(fetchCart());
         const cart = await fetchCart();
         console.log(cart);
         const response = await fetch('/customer/place-order', {
@@ -179,14 +178,19 @@ async function process_the_Payment(orderId, grand_total) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Optional: Add some animations or interactions
     const confirmationIcon = document.querySelector('.confirmation-icon svg');
     
     if (confirmationIcon) {
         confirmationIcon.classList.add('animate');
+        confirmationIcon.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
+        confirmationIcon.style.transform = 'scale(1.5)';
+        confirmationIcon.style.opacity = '1';
+
+        setTimeout(() => {
+            confirmationIcon.style.transform = 'scale(1)';
+        }, 500);
     }
     
-    // Optional: Print order functionality
     const printButton = document.createElement('button');
     printButton.textContent = 'Print Receipt';
     printButton.classList.add('btn', 'btn-secondary');
@@ -198,4 +202,5 @@ document.addEventListener('DOMContentLoaded', function() {
     if (actionsContainer) {
         actionsContainer.appendChild(printButton);
     }
+    
 });

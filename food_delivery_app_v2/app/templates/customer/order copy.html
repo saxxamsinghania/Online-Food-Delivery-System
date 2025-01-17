@@ -1,21 +1,18 @@
 {% extends "base.html" %}
+
 {% block title %}Order #{{ order.OrderID }}{% endblock %}
+
 {% block content %}
+
 <div class="order-details" data-OrderID="{{ order.OrderID }}">
     <div class="order-header">
         <h2>Order #{{ order.OrderID }}</h2>
         <div class="order-meta">
             <p>Status: <span class="status {{ order.Status.lower() }}">{{ order.Status }}</span></p>
+            <!-- <p>Date: {{ order.OrderDate.strftime('%Y-%m-%d %H:%M') }}</p> -->
             <p>Order Date: {{ order.OrderDate.strftime('%d-%m-%Y') if order.OrderDate else 'N/A' }}</p>
-            <p>Restaurant: {{ order.restaurant_name }}</p>
-        </div>
-    </div>
 
-    <!-- Added Delivery Address Section -->
-    <div class="delivery-details">
-        <h3>Delivery Address</h3>
-        <div class="address-box">
-            <p>{{ customer_address if customer_address else 'No address provided' }}</p>
+            <p>Restaurant: {{ order.restaurant_name }}</p>
         </div>
     </div>
 
@@ -30,15 +27,17 @@
                 </div>
                 <div class="item-meta">
                     <div class="item-meta-row">
-                        <span class="label">Price:</span>
+                        <span class="label">Price:</span> 
                         <span class="value">Rs. {{ "{:,.2f}".format(item.Price) }}</span>
                     </div>
+
                     <div class="item-meta-row">
-                        <span class="label">Quantity:</span>
+                        <span class="label">Quantity:</span> 
                         <span class="value">x {{ item.Quantity }}</span>
                     </div>
+                    
                     <div class="item-meta-row">
-                        <span class="label">Subtotal:</span>
+                        <span class="label">Subtotal:</span> 
                         <span class="value"><b>Rs. {{ "{:,.2f}".format(item.Price * item.Quantity) }}</b></span>
                     </div>
                 </div>
@@ -73,13 +72,13 @@
             <span class="label">Grand Total:</span>
             <span class="value">Rs. {{ "{:,.2f}".format(grand_total) }}</span>
         </div>
-    </div>
+    </div>    
 
     <div class="payment-actions">
         <button onclick="process_the_Payment('{{ orderId }}', {{ grand_total }})" class="btn-primary">Proceed to Payment</button>
     </div>
-
-    <div class="order-rating">
+    <!-- {% if not order.Rating %} -->
+    <div class="order-rating" >
         <h3>Rate Your Order</h3>
         <div class="rating-stars">
             {% for i in range(1, 6) %}
@@ -87,5 +86,6 @@
             {% endfor %}
         </div>
     </div>
+    <!-- {% endif %} -->
 </div>
 {% endblock %}
