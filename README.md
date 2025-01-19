@@ -3,12 +3,23 @@
 Users can register and login into the food delivery app, select and add to cart their favourite dishes from various restaurants, and then can place the order. The payment of any order can be done by COD(cash on delivery) or through the UPI QR code.
 
 ## Table of Contents
-- [Getting Started](#getting-started)
 - [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
+
+
+## Prerequisites
+
+Ensure you have the following installed:
+- Python 3.8 or higher from the [official website](https://www.python.org/downloads/)
+- MySQL 8.0 or higher from the [official website](https://dev.mysql.com/downloads/)
+- Git latest version from the [official website](https://git-scm.com/downloads)
+
+
+---
 
 ## Getting Started
 
@@ -22,13 +33,6 @@ cd Online-Food-Delivery-System/food_delivery_app_v2/
 ```
 ---
 
-## Prerequisites
-
-Ensure you have the following installed:
-- Python 3.8 or higher from the [official website](https://www.python.org/downloads/)
-- MySQL 8.0 or higher from the [official website](https://dev.mysql.com/downloads/)
-
----
 
 ## Installation
 
@@ -96,6 +100,9 @@ flask db migrate -m "Initial Migration"
 flask db upgrade
 ```
 This will create the required tables and models.
+
+Adding the required sample data to the app:
+Navigate to the [Insert_commands.sql](/Insert_commands.sql) file and run it using the MySQL Workbench, this will add all the restaurants and menu to our database.
 
 ## Usage
 
