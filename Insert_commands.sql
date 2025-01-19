@@ -1,3 +1,5 @@
+USE DATABASE online_food_delivery_3;
+
 INSERT INTO restaurant (Name, Location, ContactNumber, CuisineType, Rating) VALUES
 ('Bella Italia', '123 Main St, Mumbai, Maharashtra', '9876543210', 'Italian', 4.5),
 ('Sushi Sensation', '456 Ocean Ave, Bengaluru, Karnataka', '9876543211', 'Japanese', 4.7),
