@@ -1,6 +1,5 @@
 # config.py
-import os
-import datetime
+
 class Config:
     SECRET_KEY = 'your-secret-key-here'
     MYSQL_HOST = 'localhost'
