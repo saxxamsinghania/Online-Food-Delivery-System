@@ -1,6 +1,8 @@
 # requirements.txt
 flask==2.0.1
 flask-sqlalchemy==2.5.1
+flask-mysqldb==2.0.0
+flask-migrate==4.0.7
 flask-login==0.5.0
 flask-wtf==0.15.1
 mysql-connector-python==8.0.26
