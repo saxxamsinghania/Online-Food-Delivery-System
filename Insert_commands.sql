@@ -145,5 +145,4 @@ INSERT INTO menu_item (Name, Price, Description, Category, Rating, RestaurantID)
 -- Tex-Mex Express
 INSERT INTO menu_item (Name, Price, Description, Category, Rating, RestaurantID) VALUES
 ('Beef Fajitas', 1149, 'Sizzling beef fajitas with tortillas', 'Main Course', 4.6, 18),
-('Queso Fundido', 769, 'Melted cheese with chorizo', 'Appetizer', 4.5, 18),
-('Chimichanga', 999, 'Deep-fried stuffed burrito', '
+('Queso Fundido', 769, 'Melted cheese with chorizo', 'Appetizer', 4.5, 18);
