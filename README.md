@@ -102,7 +102,7 @@ flask db upgrade
 This will create the required tables and models.
 
 Adding the required sample data to the app:
-Navigate to the [Insert_commands.sql](/Insert_commands.sql) file and run it using the MySQL Workbench, this will add all the restaurants and menu to our database.
+Navigate to the [Insert_commands.sql](/Insert_commands.sql) file and run it using the MySQL Workbench, this will add all the restaurants, menu items and delivery person's details into our database.
 
 ## Usage
 
