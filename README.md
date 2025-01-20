@@ -43,7 +43,7 @@ Navigate to the [food_delivery_app_v2](/food_delivery_app_v2) folder and create 
 ```bash
 python -m venv venv        # Command to create a virtual environment named venv
 source venv/bin/activate  # Linux/Mac users can use this command to activate the virtual environment 
-venv\Scripts\activate     # Windows users can activate the venv using this command
+.\venv\Scripts\activate     # Windows users can activate the venv using this command
 ```
 
 Once the virtual environment is activated:
