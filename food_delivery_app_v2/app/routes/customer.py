@@ -2,28 +2,23 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 from app.models import *
-from app import mysql
+from app import db
 
 bp = Blueprint('customer', __name__, url_prefix='/customer')
 
 @bp.route('/dashboard')
 @login_required
 def dashboard():
-    # Get restaurants
-    cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM Restaurant ORDER BY Rating DESC')
-    restaurants = cur.fetchall()
+    # Get restaurants ordered by rating
+    restaurants = Restaurant.query.order_by(Restaurant.Rating.desc()).all()
     
-    # Get user's orders
-    cur.execute('''
-        SELECT o.*, r.Name as restaurant_name 
-        FROM `Order` o 
-        JOIN Restaurant r ON o.RestaurantID = r.RestaurantID 
-        WHERE o.CustomerID = %s 
-        ORDER BY o.OrderDate DESC
-    ''', (current_user.get_id,))
-    orders = cur.fetchall()
-    cur.close()
+    # Get user's orders with restaurant information
+    orders = (Order.query
+             .join(Restaurant)
+             .filter(Order.CustomerID == current_user.CustomerID)
+             .order_by(Order.OrderDate.desc())
+             .add_columns(Restaurant.Name.label('restaurant_name'))
+             .all())
     
     return render_template('customer/dashboard.html', 
                          restaurants=restaurants, 
@@ -33,8 +28,6 @@ def dashboard():
 @login_required
 def place_order():
     data = request.get_json()
-    
-    # Extract restaurant_id from the first item in the items list
     restaurant_id = data['items'][0]['RestaurantID']
     items = data['items']
     
@@ -45,31 +38,34 @@ def place_order():
     
     # Calculate total amount
     total_amount = sum(float(item['Price']) * item['Quantity'] for item in items)
-    print(total_amount)
-    cur = mysql.connection.cursor()
+    
     try:
-        # Create order
-        cur.execute('''
-            INSERT INTO `Order` (CustomerID, RestaurantID, TotalAmount, Status, OrderDate)
-            VALUES (%s, %s, %s, 'Pending', NOW())
-        ''', (current_user.get_id(), restaurant_id, total_amount))
-        
-        order_id = cur.lastrowid
+        # Create new order
+        new_order = Order(
+            CustomerID=current_user.CustomerID,
+            RestaurantID=restaurant_id,
+            TotalAmount=total_amount,
+            Status='Pending'
+        )
+        db.session.add(new_order)
+        db.session.flush()  # This gets us the new order ID
         
         # Create order items
         for item in items:
-            cur.execute('''
-                INSERT INTO order_item (OrderID, MenuItemID, Quantity, Price)
-                VALUES (%s, %s, %s, %s)
-            ''', (order_id, item['MenuItemID'], item['Quantity'], item['Price']))
+            order_item = OrderItem(
+                OrderID=new_order.OrderID,
+                MenuItemID=item['MenuItemID'],
+                Quantity=item['Quantity'],
+                Price=item['Price']
+            )
+            db.session.add(order_item)
         
-        mysql.connection.commit()
-        return {'success': True, 'order_id': order_id}
+        db.session.commit()
+        return {'success': True, 'order_id': new_order.OrderID}
+    
     except Exception as e:
-        mysql.connection.rollback()
+        db.session.rollback()
         return {'success': False, 'error': str(e)}, 500
-    finally:
-        cur.close()
 
 @bp.route('/restaurant/<int:id>')
 def restaurant_detail(id):
@@ -88,7 +84,6 @@ def add_to_cart(menu_item_id):
     data = request.get_json()
     restaurant_id = data['RestaurantID']
     menu_item = MenuItem.query.get_or_404(menu_item_id)
-    print("Here ji")
     CartItem.add_to_cart(current_user.CustomerID, menu_item_id, restaurant_id)
     return jsonify({'success': True})
 
@@ -114,7 +109,7 @@ def clear_cart():
 @bp.route('/customer/get-cart')
 @login_required
 def get_cart():
-    cart_items = CartItem.query.filter_by(user_id=current_user.id).all()
+    cart_items = CartItem.query.filter_by(CustomerID=current_user.CustomerID).all()
     return jsonify({
         'cart': [item.to_dict() for item in cart_items]
     })
