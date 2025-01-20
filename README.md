@@ -45,6 +45,10 @@ python -m venv venv        # Command to create a virtual environment named venv
 source venv/bin/activate  # Linux/Mac users can use this command to activate the virtual environment 
 .\venv\Scripts\activate     # Windows users can activate the venv using this command
 ```
+Incase for Windows users, while activating the virtual environment, some access is denied, enter the following command in Windows PowerShell:
+```bash
+Set-ExecutionPolicy Unrestricted -Scope Process
+```
 
 Once the virtual environment is activated:
 
