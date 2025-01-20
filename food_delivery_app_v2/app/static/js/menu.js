@@ -1,12 +1,3 @@
-// let cart = [];
-
-// window.onload = function() {
-//     const storedCart = localStorage.getItem('cart');
-//     if (storedCart) {
-//         cart = JSON.parse(storedCart);
-//         updateCartDisplay();
-//     }
-// };
 window.onload = function() {
     updateCartDisplay();
 };
@@ -15,9 +6,6 @@ async function fetchCart() {
     try {
         const response = await fetch('/customer/cart');
         const cart = await response.json();
-        // cart = data.cart;
-        // console.log("Here")
-        // updateCartDisplay();
         return cart
     } catch (error) {
         console.error('Failed to fetch cart:', error);
@@ -25,12 +13,10 @@ async function fetchCart() {
 }
 
 function addToCart(item) {
-    // console.log("Hello world on top");
     fetch(`/customer/add_to_cart/${item.MenuItemID}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            // 'X-CSRFToken': getCookie('csrf_token')
         },
         body: JSON.stringify({
             RestaurantID: item.RestaurantID
@@ -39,7 +25,6 @@ function addToCart(item) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Reload cart or update UI
             updateCartDisplay();
         }
     });
@@ -55,7 +40,6 @@ function removeFromCart(itemId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Reload cart or update UI
             updateCartDisplay();
         }
     });
@@ -98,14 +82,10 @@ async function updateCartDisplay() {
     try {
         const response = await fetch('/customer/cart');
         const cartItems = await response.json();
-
-        // console.log(cartItems);
-
         const cartSummary = document.getElementById('cartSummary');
         const cartItemsContainer = document.getElementById('cartItems');
         const cartTotal = document.getElementById('cartTotal');
-        // console.log(cartItems.length);
-
+        
         if (cartItems.length === 0) {
             cartSummary.style.display = 'none';
             return;
