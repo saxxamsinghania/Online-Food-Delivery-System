@@ -1,4 +1,4 @@
-USE DATABASE online_food_delivery_3;
+USE online_food_delivery_3;
 
 INSERT INTO restaurant (Name, Location, ContactNumber, CuisineType, Rating) VALUES
 ('Bella Italia', '123 Main St, Mumbai, Maharashtra', '9876543210', 'Italian', 4.5),
