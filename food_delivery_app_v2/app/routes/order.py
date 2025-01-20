@@ -122,6 +122,8 @@ def generate_qr():
 @bp.route('/process-payment/<int:order_id>')
 @login_required
 def process_payment(order_id):
+    grand_total = request.args.get('grand_total', type=float)
+    
     order = Order.query.filter_by(
         OrderID=order_id, 
         CustomerID=current_user.CustomerID
@@ -130,7 +132,7 @@ def process_payment(order_id):
     if not order:
         return 'Order not found', 404
     
-    return render_template('customer/payment.html', order=order)
+    return render_template('customer/payment.html', order=order, grand_total=grand_total)
 
 @bp.route('/complete-order/<int:order_id>', methods=['POST'])
 @login_required
