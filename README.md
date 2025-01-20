@@ -63,19 +63,13 @@ pip install -r requirements.txt
 The [config.py](/food_delivery_app_v2/app/config.py) file looks like this:
 ```python
 # config.py
-
 class Config:
     SECRET_KEY = 'your-secret-key-here'
-    MYSQL_HOST = 'localhost'
-    MYSQL_USER = 'root'
-    MYSQL_PASSWORD = 'password'.  #replace here
-    MYSQL_DB = 'online_food_delivery_3'
-    MYSQL_CURSORCLASS = 'DictCursor'
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:password@localhost/online_food_delivery_3' #here replace password
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:password@localhost/online_food_delivery'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 ```
-You must replace the 'password' with your actual MySQL root password at the two locations shown with the comments. \
-Since, the database is named as online_food_delivery_3, so you have to create a database named 'online_food_delivery_3' using your SQL initially, and migrate it.
+You must replace the 'password' with your actual MySQL root password. \
+Since, the database is named as online_food_delivery, so you have to create a database named 'online_food_delivery' using your SQL initially, and migrate it.
 
 Steps to create the required database: 
 
@@ -93,7 +87,7 @@ Enter your password and now you are in your MySQL shell.
 
 Now enter this command to create the required database:
 ```mysql
-CREATE DATABASE online_food_delivery_3;
+CREATE DATABASE online_food_delivery;
 ```
 
 Steps to migrate: \
