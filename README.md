@@ -112,6 +112,12 @@ to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
 
-## License
+### License
 
-[MIT](./LICENSE)
+This project is licensed under a custom license:
+
+- You may use, copy, and modify this project for personal, educational, and research purposes.
+- **Commercial use is strictly prohibited** without explicit permission from the author.
+
+For the full license text, see the [LICENSE](LICENSE) file in this repository.
+
