@@ -151,10 +151,9 @@ async function process_the_Payment(orderId, grand_total) {
         },
         body: JSON.stringify({
             total_amount: grand_total
-            
         })
     })
-    window.location.href = `/order/process-payment/${orderId}`;
+    window.location.href = `/order/process-payment/${orderId}?grand_total=${grand_total}`;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
