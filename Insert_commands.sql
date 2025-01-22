@@ -20,7 +20,8 @@ INSERT INTO restaurant (Name, Location, ContactNumber, CuisineType, Rating) VALU
 ('Ramen Republic', '567 Noodle Ln, Coimbatore, Tamil Nadu', '9876543226', 'Japanese', 4.6),
 ('Tex-Mex Express', '890 Salsa St, Indore, Madhya Pradesh', '9876543227', 'Tex-Mex', 4.3),
 ('Soul Food Kitchen', '123 Soul St, Surat, Gujarat', '9876543228', 'Southern', 4.5),
-('Dim Sum Palace', '456 Dragon St, Vadodara, Gujarat', '9876543229', 'Chinese', 4.7);
+('Dim Sum Palace', '456 Dragon St, Vadodara, Gujarat', '9876543229', 'Chinese', 4.7)
+('Dessert Heaven', '789 Sweet St, Pune, Maharashtra', '9876543230', 'Dessert', 4.8);
 
 -- Insert Menu Items for Each Restaurant
 -- Bella Italia
@@ -179,3 +180,25 @@ INSERT INTO menu_item (Name, Price, Description, Category, Rating, RestaurantID)
 INSERT INTO menu_item (Name, Price, Description, Category, Rating, RestaurantID) VALUES
 ('Beef Fajitas', 1149, 'Sizzling beef fajitas with tortillas', 'Main Course', 4.6, 18),
 ('Queso Fundido', 769, 'Melted cheese with chorizo', 'Appetizer', 4.5, 18);
+
+-- Dessert Heaven
+INSERT INTO menu_item (Name, Price, Description, Category, Rating, RestaurantID) VALUES
+('Chocolate Lava Cake', 599, 'Warm, gooey chocolate cake with a molten center', 'Cake', 4.8, 21),
+('Classic Tiramisu', 499, 'Layered dessert with coffee-soaked ladyfingers and mascarpone', 'Cake', 4.7, 21),
+('Caramel Panna Cotta', 459, 'Smooth, creamy panna cotta with a caramel topping', 'Pudding', 4.7, 21),
+('Fruit Tart', 479, 'Crispy tart filled with cream and topped with fresh seasonal fruits', 'Pastry', 4.6, 21),
+('Lemon Meringue Pie', 529, 'Tangy lemon curd with a fluffy meringue topping', 'Pie', 4.7, 21),
+('Churros with Chocolate Sauce', 359, 'Crispy fried dough sticks served with rich chocolate dipping sauce', 'Fried', 4.6, 21),
+('Vanilla Bean Ice Cream', 299, 'Creamy vanilla ice cream with real vanilla beans', 'Ice Cream', 4.8, 21),
+('Red Velvet Cupcake', 349, 'Moist red velvet cupcake topped with cream cheese frosting', 'Cupcake', 4.7, 21),
+('Banoffee Pie', 499, 'A delicious pie with layers of banana, toffee, and whipped cream', 'Pie', 4.8, 21),
+('Pistachio Baklava', 349, 'Flaky pastry filled with sweet pistachio and honey syrup', 'Pastry', 4.7, 21),
+('Blueberry Cheesecake', 549, 'Rich and creamy cheesecake topped with fresh blueberries', 'Cake', 4.7, 21),
+('Mango Sorbet', 399, 'Refreshing sorbet made from ripe mangoes', 'Ice Cream', 4.6, 21),
+('Chocolate Mousse', 479, 'Luxurious chocolate mousse topped with whipped cream', 'Mousse', 4.8, 21),
+('Apple Crumble', 459, 'Baked apples with a buttery, crispy crumble topping', 'Pie', 4.6, 21),
+('Strawberry Shortcake', 489, 'Fluffy cake layered with fresh strawberries and whipped cream', 'Cake', 4.7, 21),
+('Coconut Ladoo', 229, 'Sweet coconut balls made with condensed milk and cardamom', 'Sweet', 4.5, 21),
+('Chilled Rabri', 349, 'Traditional Indian dessert made from condensed milk, flavored with saffron', 'Pudding', 4.7, 21),
+('Matcha Green Tea Cake', 499, 'Soft cake flavored with matcha and topped with cream', 'Cake', 4.6, 21);
+
