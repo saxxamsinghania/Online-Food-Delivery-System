@@ -146,28 +146,3 @@ INSERT INTO menu_item (Name, Price, Description, Category, Rating, RestaurantID)
 INSERT INTO menu_item (Name, Price, Description, Category, Rating, RestaurantID) VALUES
 ('Beef Fajitas', 1149, 'Sizzling beef fajitas with tortillas', 'Main Course', 4.6, 18),
 ('Queso Fundido', 769, 'Melted cheese with chorizo', 'Appetizer', 4.5, 18);
-
-
--- Insert delivery person's details
-INSERT INTO delivery_person (Name, PhoneNumber, VehicleDetails, Rating) VALUES
-('Raj Patel', '9876543210', 'Blue Honda Activa', 4.7),
-('Priya Sharma', '9876543211', 'Red Electric Scooter', 4.8),
-('Vikram Singh', '9876543212', 'Green Royal Enfield', 4.6),
-('Anjali Desai', '9876543213', 'Silver City Bike', 4.7),
-('Rahul Gupta', '9876543214', 'Black Bajaj Pulsar', 4.5),
-('Deepa Krishnamurthy', '9876543215', 'White Honda Shine', 4.6),
-('Arjun Mehta', '9876543216', 'Blue Yamaha FZ', 4.7),
-('Sonali Joshi', '9876543217', 'Gray TVS Jupiter', 4.6),
-('Nitin Reddy', '9876543218', 'Red Suzuki Access', 4.5),
-('Kavya Nair', '9876543219', 'Purple Hero Maestro', 4.7),
-('Sanjay Banerjee', '9876543220', 'Navy Blue Activa', 4.6),
-('Meera Iyer', '9876543221', 'Green Vespa', 4.7),
-('Rohan Malhotra', '9876543222', 'Black Honda CB', 4.5),
-('Neha Chaudhary', '9876543223', 'White Electric Bike', 4.6),
-('Arun Rajan', '9876543224', 'Silver Kawasaki', 4.7),
-('Shreya Bhattacharya', '9876543225', 'Blue Mahindra Gusto', 4.6),
-('Karthik Subramanian', '9876543226', 'Red Royal Enfield Classic', 4.5),
-('Divya Menon', '9876543227', 'Green Honda Dio', 4.7),
-('Amit Chopra', '9876543228', 'Gray Suzuki Burgman', 4.6),
-('Lakshmi Narayanan', '9876543229', 'Black Electric Scooter', 4.7);
-
