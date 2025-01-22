@@ -76,13 +76,6 @@ class OrderItem(db.Model):
     MenuItemID = db.Column(db.Integer, db.ForeignKey('menu_item.MenuItemID'), nullable=False)
     OrderID = db.Column(db.Integer, db.ForeignKey('order.OrderID'), nullable=False)
 
-class DeliveryPerson(db.Model):
-    DeliveryPersonID = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    Name = db.Column(db.String(100), nullable=False)
-    PhoneNumber = db.Column(db.String(15))
-    VehicleDetails = db.Column(db.String(100))
-    Rating = db.Column(db.Float, default=0.0)
-
 class Payment(db.Model):
     PaymentID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     PaymentDate = db.Column(db.DateTime, default=datetime.utcnow)
