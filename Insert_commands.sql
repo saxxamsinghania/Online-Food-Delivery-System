@@ -20,7 +20,7 @@ INSERT INTO restaurant (Name, Location, ContactNumber, CuisineType, Rating) VALU
 ('Ramen Republic', '567 Noodle Ln, Coimbatore, Tamil Nadu', '9876543226', 'Japanese', 4.6),
 ('Tex-Mex Express', '890 Salsa St, Indore, Madhya Pradesh', '9876543227', 'Tex-Mex', 4.3),
 ('Soul Food Kitchen', '123 Soul St, Surat, Gujarat', '9876543228', 'Southern', 4.5),
-('Dim Sum Palace', '456 Dragon St, Vadodara, Gujarat', '9876543229', 'Chinese', 4.7)
+('Dim Sum Palace', '456 Dragon St, Vadodara, Gujarat', '9876543229', 'Chinese', 4.7),
 ('Dessert Heaven', '789 Sweet St, Pune, Maharashtra', '9876543230', 'Dessert', 4.8);
 
 -- Insert Menu Items for Each Restaurant
@@ -201,4 +201,3 @@ INSERT INTO menu_item (Name, Price, Description, Category, Rating, RestaurantID)
 ('Coconut Ladoo', 229, 'Sweet coconut balls made with condensed milk and cardamom', 'Sweet', 4.5, 21),
 ('Chilled Rabri', 349, 'Traditional Indian dessert made from condensed milk, flavored with saffron', 'Pudding', 4.7, 21),
 ('Matcha Green Tea Cake', 499, 'Soft cake flavored with matcha and topped with cream', 'Cake', 4.6, 21);
-

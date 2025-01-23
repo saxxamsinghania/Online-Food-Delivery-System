@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Welcome to FoodExpress{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Delicious Food Delivered</h1>
+        <p>Order from the best restaurants in your area</p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Featured Categories -->
+    <section class="categories-section">
+        <h2>What's on your mind?</h2>
+        <div class="category-grid">
+            <div class="category-card">
+                <a href="{{ url_for('restaurant.menu', restaurant_id=13) }}" class="no-style-link">
+                    <img src="/static/img/pizza.jpg" alt="Pizza">
+                    <h3>Pizza</h3>
+                </a>
+            </div>
+            <div class="category-card">
+                <a href="{{ url_for('restaurant.menu', restaurant_id=6) }}" class="no-style-link">
+                    <img src="/static/img/burger.jpg" alt="Burger">
+                    <h3>Burger</h3>
+                </a>
+            </div>
+            <div class="category-card">
+                <a href="{{ url_for('restaurant.menu', restaurant_id=12) }}" class="no-style-link">
+                    <img src="/static/img/biryani.jpg" alt="Biryani">
+                    <h3>Biryani</h3>
+                </a>
+            </div>
+            <div class="category-card">
+                <a href="{{ url_for('restaurant.menu', restaurant_id=21) }}" class="no-style-link">
+                    <img src="/static/img/dessert.jpg" alt="Desserts">
+                    <h3>Desserts</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="how-it-works">
+        <h2>How It Works</h2>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h3>Set Delivery Location</h3>
+                <p>Choose your delivery location</p>
+            </div>
+            <div class="step-card">
+                <div class="step-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3>Choose Restaurant</h3>
+                <p>Browse restaurants and menus</p>
+            </div>
+            <div class="step-card">
+                <div class="step-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h3>Get it Delivered</h3>
+                <p>Food is prepared & delivered to you</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- App Download Section -->
+<section class="app-download">
+    <div class="container">
+        <div class="app-content">
+            <div class="app-text">
+                <h2>Download Our App</h2>
+                <p>Get the best food delivery experience on your phone</p>
+                <div class="app-buttons">
+                    <a href="{{ url_for('home.coming_soon') }}" class="app-button">
+                        <img src="/static/img/app-store.png" alt="App Store">
+                    </a>
+                    <a href="{{ url_for('home.coming_soon') }}" class="app-button">
+                        <img src="/static/img/play-store.png" alt="Play Store">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

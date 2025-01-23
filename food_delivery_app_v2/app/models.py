@@ -75,7 +75,6 @@ class OrderItem(db.Model):
     Price = db.Column(db.Float, nullable=False)
     MenuItemID = db.Column(db.Integer, db.ForeignKey('menu_item.MenuItemID'), nullable=False)
     OrderID = db.Column(db.Integer, db.ForeignKey('order.OrderID'), nullable=False)
-
 class Payment(db.Model):
     PaymentID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     PaymentDate = db.Column(db.DateTime, default=datetime.utcnow)
